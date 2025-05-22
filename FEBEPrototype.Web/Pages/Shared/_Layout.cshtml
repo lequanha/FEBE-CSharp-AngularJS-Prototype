@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FEBE Prototype</title>
+    <link rel="stylesheet" href="~/styles.css" />
+</head>
+<body>
+    <div class="container-fluid p-0 h-100">
+        <div class="row no-gutters h-100">
+            <div class="col-lg-4 d-none d-lg-flex" style="background-image: url('/assets/images/others/login-1.jpg');">
+                <div class="d-flex h-100 p-h-40 p-v-15 flex-column justify-content-between">
+                    <div>
+                        <img src="/assets/images/logo/logo-white.png" alt="">
+                    </div>
+                    <div>
+                        <h1 class="text-white m-b-20 font-weight-normal">
+                            FEBE Prototype
+                        </h1>
+                        <p class="text-white font-size-16 lh-2 w-80 opacity-08">
+                            A Home For All Things Data Science
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 bg-white">
+                <div class="container h-100">
+                    <div class="row no-gutters h-100 align-items-center">
+                        <div class="col-md-8 col-lg-7 col-xl-6 mx-auto">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cdk-overlay-container"></div><object id="__symantecPKIClientMessenger" data-supports-flavor-configuration="true" data-extension-version="0.5.0.109" style="display: none;"></object><span id="__symantecPKIClientDetector" style="display: none;">__PRESENT</span>
+    <script src="https://at.alicdn.com/t/font_8d5l8fzk5b87iudi.js" data-namespace="//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js"></script><div aria-hidden="true" style="place-content: normal; place-items: normal; place-self: auto; alignment-baseline: auto; animation: 0s ease 0s 1 normal none running none; appearance: none; backdrop-filter: none; backface-visibility: visible; background: none 0% 0% / auto repeat scroll padding-box border-box rgba(0, 0, 0, 0); background-blend-mode: normal; baseline-shift: 0px; block-size: 25px; border-block-end: 0px none rgb(114, 132, 154); border-block-start: 0px none rgb(114, 132, 154); border: 0px none rgb(114, 132, 154); border-radius: 0px; border-collapse: separate; border-inline-end: 0px none rgb(114, 132, 154); border-inline-start: 0px none rgb(114, 132, 154); bottom: auto; box-shadow: none; box-sizing: border-box; break-after: auto; break-before: auto; break-inside: auto; buffered-rendering: auto; caption-side: top; caret-color: rgb(114, 132, 154); clear: none; clip: auto; clip-path: none; clip-rule: nonzero; color: rgb(114, 132, 154); color-interpolation: srgb; color-interpolation-filters: linearrgb; color-rendering: auto; columns: auto auto; gap: normal; column-rule: 0px none rgb(114, 132, 154); column-span: none; content: normal; cursor: auto; cx: 0px; cy: 0px; d: none; direction: ltr; display: block; dominant-baseline: auto; empty-cells: show; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; filter: none; flex: 0 1 auto; flex-flow: row nowrap; float: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; font-family: Poppins, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-kerning: auto; font-optical-sizing: auto; font-size: 14px; font-stretch: 100%; font-style: normal; font-variant: tabular-nums; font-weight: 400; grid-auto-columns: auto; grid-auto-flow: row; grid-auto-rows: auto; grid-area: auto / auto / auto / auto; grid-template-areas: none; grid-template-columns: none; grid-template-rows: none; height: auto; hyphens: manual; image-orientation: from-image; image-rendering: auto; inline-size: 1291px; isolation: auto; left: 0px; letter-spacing: normal; lighting-color: rgb(255, 255, 255); line-break: auto; line-height: 25.2px; list-style: outside none disc; margin-block-end: 14px; margin-block-start: 0px; margin: 0px 0px 14px; margin-inline-end: 0px; margin-inline-start: 0px; marker: none; mask: none; mask-type: luminance; max-block-size: none; max-height: none; max-inline-size: none; max-width: none; min-block-size: 0px; min-height: auto; min-inline-size: 0px; min-width: 0px; mix-blend-mode: normal; object-fit: fill; object-position: 50% 50%; offset: none 0px auto 0deg; opacity: 1; order: 0; orphans: 2; outline: rgb(114, 132, 154) none 0px; outline-offset: 0px; overflow-anchor: auto; overflow-wrap: normal; overflow: visible; overscroll-behavior-block: auto; overscroll-behavior-inline: auto; padding-block-end: 0px; padding-block-start: 0px; padding: 0px; padding-inline-end: 0px; padding-inline-start: 0px; paint-order: normal; perspective: none; perspective-origin: 645.5px 12.5px; pointer-events: auto; position: fixed; r: 0px; resize: none; right: auto; ruby-position: over; rx: auto; ry: auto; scroll-behavior: auto; scroll-margin-block: 0px; scroll-margin-inline: 0px; scroll-padding-block: auto; scroll-padding-inline: auto; shape-image-threshold: 0; shape-margin: 0px; shape-outside: none; shape-rendering: auto; speak: normal; stop-color: rgb(0, 0, 0); stop-opacity: 1; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; tab-size: 8; table-layout: auto; text-align: start; text-align-last: auto; text-anchor: start; text-decoration: none solid rgb(114, 132, 154); text-decoration-skip-ink: auto; text-indent: 0px; text-overflow: clip; text-rendering: auto; text-shadow: none; text-size-adjust: 100%; text-transform: none; text-underline-position: auto; top: -999999px; touch-action: auto; transform: none; transform-origin: 645.5px 12.5px; transform-style: flat; transition: all 0s ease 0s; unicode-bidi: normal; user-select: auto; vector-effect: none; vertical-align: baseline; visibility: visible; white-space: normal; widows: 2; width: 1291px; will-change: auto; word-break: normal; word-spacing: 0px; writing-mode: horizontal-tb; x: 0px; y: 0px; z-index: -1000; zoom: 1; -webkit-app-region: none; border-spacing: 0px; -webkit-border-image: none; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-locale: &quot;en&quot;; -webkit-mask-box-image-outset: 0; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask: none 0% 0% / auto repeat border-box border-box; -webkit-mask-composite: source-over; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis: none rgb(114, 132, 154); -webkit-text-emphasis-position: over right; -webkit-text-fill-color: rgb(114, 132, 154); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke: 0px rgb(114, 132, 154); -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-writing-mode: horizontal-tb;"></div>
+
+    <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Identity/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+
+
+
+
+
+
+
+</html>

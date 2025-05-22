@@ -1,0 +1,20 @@
+<perfect-scrollbar class="side-nav">
+    <ul nz-menu nzMode="{{isFolded?'vertical':'inline'}}" [class.ant-menu-dark]="isSideNavDark">
+        <li nz-submenu nzTitle="{{isFolded?'':'Develop'}}" nzIcon="code" nzOpen>
+            <ul>
+                <li nz-menu-item>
+                    <a routerLink="/portal/develop/create-project">
+                        <i nz-icon nzType="project" theme="outline"></i>
+                        Create Project
+                    </a>
+                </li>
+                <li nz-menu-item>
+                    <a routerLink="/portal/develop/projects">
+                        <i nz-icon nzType="right" theme="outline"></i>
+                        View Projects
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</perfect-scrollbar>

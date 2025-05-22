@@ -1,0 +1,109 @@
+<div *ngIf="ready" class="container">
+    <nz-card>
+        <form id="project-form" nz-form #form="ngForm">
+            <div class="align-items-center">
+                <nz-steps [nzCurrent]="currentStep" nzDirection="horizontal">
+                    <nz-step nzTitle="Select your objective"></nz-step>
+                    <nz-step nzTitle="Select your component"></nz-step>
+                    <nz-step nzTitle="Project Description"></nz-step>
+                </nz-steps>
+
+                <nz-tabset [(nzSelectedIndex)]="currentStep">
+                    <nz-tab>
+                        <nz-radio-group class="w-100" name="projectTypes" [(ngModel)]="selectedProjectType"
+                            (ngModelChange)="selectProjectType($event)">
+                            <div *ngFor="let projectType of projectTypes" class="d-flex" nz-radio
+                                [nzValue]="projectType">
+                                <h4>
+                                    {{projectType.name}}
+                                </h4>
+                                {{projectType.description}}
+                                <nz-divider></nz-divider>
+                            </div>
+                        </nz-radio-group>
+                    </nz-tab>
+                    <nz-tab>
+                        <div class="row">
+                            <div class="col-md-3" *ngFor="let component of components">
+                                <nz-card class="pointer" (click)="toggleComponentSelection(component)">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="media">
+                                            <nz-avatar [nzSize]="50" nzShape="square"
+                                                nzSrc="/assets/images/components/{{component.id}}.png"></nz-avatar>
+                                            <div class="m-l-10">
+                                                <h5 class="m-b-0">{{component.name}}</h5>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label nz-checkbox name="component-{{component.id}}" [ngModel]="component.selected"
+                                                (ngModelChange)="toggleComponentSelection(component)">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <p class="m-t-25">
+                                        {{component.description}}
+                                    </p>
+                                </nz-card>
+                            </div>
+                        </div>
+                    </nz-tab>
+                    <nz-tab>
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="3">Name</nz-form-label>
+                            <nz-form-control nzHasFeedback [nzSpan]="15" nzErrorTip="Name is required">
+                                <input nz-input [(ngModel)]="projectInfo.name" name="name" required />
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="3">Description</nz-form-label>
+                            <nz-form-control nzHasFeedback [nzSpan]="15" nzErrorTip="Description is required">
+                                <textarea nz-input [(ngModel)]="projectInfo.description" name="description"
+                                    required></textarea>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="3">Tags</nz-form-label>
+                            <nz-form-control nzHasFeedback [nzSpan]="15" nzErrorTip="Description is required">
+                                <nz-tag *ngFor="let tag of projectInfo.tags; let i = index" nzMode="closeable"
+                                    (nzAfterClose)="removeTag(tag)">
+                                    {{ tag }}
+                                </nz-tag>
+                                <nz-tag *ngIf="!tagInputVisible" class="editable-tag" nzNoAnimation
+                                    (click)="showTagInput()">
+                                    <i nz-icon nzType="plus"></i>
+                                    New Tag
+                                </nz-tag>
+                                <input #tagInput nz-input nzSize="small" *ngIf="tagInputVisible" type="text"
+                                    style="width: 78px;" (blur)="addTag($event.target.value)" (keydown.esc)="addTag('')"
+                                    (keydown.enter)="addTag($event.target.value)" />
+                            </nz-form-control>
+                        </nz-form-item>
+
+                    </nz-tab>
+                </nz-tabset>
+
+                <div class="m-t-20">
+                    <nz-button-group class="w-100">
+                        <button nz-button (click)="goPrevious()" [disabled]="currentStep==0">
+                            <i nz-icon nzType="left"></i>
+                            Previous
+                        </button>
+                        <button class="pull-right" *ngIf="currentStep<2" [disabled]="currentStep==1&&projectInfo.componentIds.length==0" nz-button nzType="primary" (click)="goNext()">
+                            Next
+                            <i nz-icon nzType="right"></i>
+                        </button>
+                        <button type="submit" form="project-form" class="pull-right" *ngIf="currentStep==2" nz-button
+                            nzType="primary" (click)="launch()" [disabled]="!form.form.valid">
+                            Launch
+                        </button>
+                    </nz-button-group>
+                </div>
+
+            </div>
+        </form>
+    </nz-card>
+</div>
+
+{{projectInfo | json}}

@@ -1,0 +1,52 @@
+<div class="header">
+    <div class="logo logo-dark">
+        <a href="">
+            <img src="assets/images/logo/logo.png" alt="Logo">
+            <img class="logo-fold" src="assets/images/logo/logo-fold.png" alt="Logo">
+        </a>
+    </div>
+    <div class="logo logo-white">
+        <a href="">
+            <img src="assets/images/logo/logo-white.png" alt="Logo">
+            <img class="logo-fold" src="assets/images/logo/logo-fold-white.png" alt="Logo">
+        </a>
+    </div>
+    <div class="nav-wrap">
+        <ul class="nav-left">
+            <li class="desktop-toggle">
+                <a (click)="toggleFold()">
+                    <i nz-icon [nzType]="isFolded? 'menu-unfold':'menu-fold'" theme="outline"></i>
+                </a>
+            </li>
+            <li class="mobile-toggle">
+                <a (click)="toggleExpand()">
+                    <i nz-icon [nzType]="isExpand? 'menu-fold': 'menu-unfold'" theme="outline"></i>
+                </a>
+            </li>
+            <li>
+                <a (click)="searchToggle()">
+                    <i nz-icon nzType="search" theme="outline"></i>
+                </a>
+                <nz-drawer [nzWidth]="380" nzTitle="Search" [nzVisible]="searchVisible" nzPlacement="left" (nzOnClose)="searchToggle()">
+                    <!-- <dh-search></dh-search> -->
+                </nz-drawer>
+            </li>
+        </ul>
+        <ul class="nav-right">
+            <li>
+                <dh-notification-menu></dh-notification-menu>
+            </li>
+            <li>
+                <dh-user-menu></dh-user-menu>
+            </li>
+            <li>
+                <a (click)="quickViewToggle()">
+                    <i nz-icon nzType="appstore" theme="outline"></i>
+                </a>
+                <nz-drawer [nzWidth]="280" nzTitle="Theme Config" [nzClosable]="false" [nzVisible]="quickViewVisible" nzPlacement="right" (nzOnClose)="quickViewToggle()">
+                    <dh-quick-view></dh-quick-view>
+                </nz-drawer>
+            </li>
+        </ul>
+    </div>
+</div>    

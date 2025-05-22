@@ -1,0 +1,79 @@
+﻿#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+
+FROM stellirin/postgres-windows:latest AS prepare
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-nanoserver-1903 AS base
+WORKDIR /app
+# Base port Sep-2-2020
+ENV ASPNETCORE_URLS=http://+:5001
+EXPOSE 5001
+EXPOSE 5000
+# PostgreSQL 12.4 Sep-3-2020 
+RUN mkdir "C:\\docker-entrypoint-initdb.d"
+#### Copy over PostgreSQL
+COPY --from=prepare /pgsql /pgsql
+#### In order to set system PATH, ContainerAdministrator must be used
+USER ContainerAdministrator
+RUN setx /M PATH "C:\\pgsql\\bin;%PATH%"
+USER ContainerUser
+ENV PGDATA="C:\\pgsql\\data"
+EXPOSE 5432
+# Ending PostgreSQL
+
+FROM stefanscherer/node-windows:latest AS nodejs 
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /src
+# PowerShell 12.4 Sep-3-2020 
+RUN dotnet tool install --global PowerShell
+# Ending PowerShell
+# PostgreSQL 12.4 Sep-3-2020 
+COPY --from=prepare docker-entrypoint.cmd /
+SHELL ["pwsh", "-c"]
+RUN (Get-Content -path C:\docker-entrypoint.cmd -Raw) -replace 'call :file_env POSTGRES_PASSWORD','call :file_env POSTGRES_PASSWORD admin' | Set-Content -Path C:\docker-entrypoint.cmd
+RUN (Get-Content -path C:\docker-entrypoint.cmd -Raw) -replace 'call :file_env POSTGRES_DB !POSTGRES_USER!','call :file_env POSTGRES_DB FEBEPrototype' | Set-Content -Path C:\docker-entrypoint.cmd
+SHELL ["CMD", "/S", "/C"]
+# Ending PostgreSQL
+# Node Sep-3-2020 
+COPY --from=nodejs /nodejs /nodejs
+USER ContainerAdministrator
+RUN setx /M PATH "%PATH%;C:\nodejs"
+USER ContainerUser
+RUN npm -v
+RUN node -v
+# Ending Node
+# Entity Framework Sep-2-2020
+RUN dotnet tool install --global dotnet-ef
+USER ContainerAdministrator
+RUN setx /M PATH "%PATH%;C:\Users\ContainerUser\.dotnet\tools"
+USER ContainerUser
+COPY . .
+RUN dotnet restore "FEBEPrototype.Web.csproj"
+RUN dotnet ef migrations script -o "C:\\febe_migrations.sql"
+SHELL ["pwsh", "-c"]
+RUN (Get-Content -Path C:\febe_migrations.sql -Raw) -replace '^~', '' | Set-Content -Path C:\febe_migrations.sql
+SHELL ["CMD", "/S", "/C"]
+RUN (echo \c FEBEPrototype;) > "C:\\febe_migrations.sql.new"
+RUN type "C:\\febe_migrations.sql" >> "C:\\febe_migrations.sql.new"
+RUN move /y "C:\\febe_migrations.sql.new" "C:\\febe_migrations.sql"
+# Ending Entity Framework
+RUN dotnet build "FEBEPrototype.Web.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "FEBEPrototype.Web.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+EXPOSE 5001 
+# PostgreSQL 12.4 Sep-3-2020 
+COPY --from=build "C:\febe_migrations.sql" "C:\docker-entrypoint-initdb.d\febe_migrations.sql"
+COPY --from=build "C:\docker-entrypoint.cmd" "C:\docker-entrypoint.cmd"
+RUN type C:\docker-entrypoint.cmd
+RUN type C:\docker-entrypoint-initdb.d\febe_migrations.sql
+RUN C:\docker-entrypoint.cmd
+# Ending PostgreSQL
+ENTRYPOINT pg_ctl -U postgres -D C:\pgsql\data start && psql -U postgres -c "\l" && psql -U postgres -d FEBEPrototype -c "\d" && dotnet FEBEPrototype.Web.dll
